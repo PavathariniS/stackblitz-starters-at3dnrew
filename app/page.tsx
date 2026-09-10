@@ -9,33 +9,35 @@ export default function Home() {
   // -------------------------------------------------------
 
   // Stores all todos
-  const [todos, setTodos] = useState<any[]>([]);
+  const [todos, setTodos] = useState([]);
 
   // Stores the value entered in the input
-  const [newTodo, setNewTodo] = useState<any>('');
+  const [newTodo, setNewTodo] = useState('');
 
   // Shows loading message
-  const [loading, setLoading] = useState<any>(false);
+  const [loading, setLoading] = useState(false);
 
   // Stores error message
-  const [error, setError] = useState<any>('');
+  const [error, setError] = useState('');
 
   // -------------------------------------------------------
   // GET TODOS
   // -------------------------------------------------------
 
-  const getTodos = async (): Promise<any> => {
+  const getTodos = async () => {
     try {
       setLoading(true);
       setError('');
 
       // Send GET request to our API
-      const response: any = await axios.get('/api');
+      const response = await axios.get('/api');
 
       // Axios automatically converts JSON into JavaScript
+      // and stores the result inside response.data
       setTodos(response.data);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
+
       setError('Failed to load todos.');
     } finally {
       setLoading(false);
@@ -46,7 +48,7 @@ export default function Home() {
   // ADD TODO
   // -------------------------------------------------------
 
-  const addTodo = async (event: any): Promise<any> => {
+  const addTodo = async (event) => {
     // Prevent page refresh
     event.preventDefault();
 
@@ -59,17 +61,18 @@ export default function Home() {
       setError('');
 
       // Send POST request
-      const response: any = await axios.post('/api', {
+      const response = await axios.post('/api', {
         title: newTodo,
       });
 
       // Add the new todo to the existing list
-      setTodos((currentTodos: any[]) => [response.data, ...currentTodos]);
+      setTodos((currentTodos) => [response.data, ...currentTodos]);
 
       // Clear input
       setNewTodo('');
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
+
       setError('Failed to add todo.');
     }
   };
@@ -78,26 +81,27 @@ export default function Home() {
   // UPDATE TODO
   // -------------------------------------------------------
 
-  const toggleTodo = async (todo: any): Promise<any> => {
+  const toggleTodo = async (todo) => {
     try {
       setError('');
 
       // Send PATCH request
-      // ID is passed as a query parameter
+      //
+      // The ID is passed as a query parameter
+      //
       // /api?id=1
-
-      const response: any = await axios.patch(`/api?id=${todo.id}`, {
+      //
+      const response = await axios.patch(`/api?id=${todo.id}`, {
         completed: !todo.completed,
       });
 
       // Update the todo in our local state
-      setTodos((currentTodos: any[]) =>
-        currentTodos.map((item: any) =>
-          item.id === todo.id ? response.data : item
-        )
+      setTodos((currentTodos) =>
+        currentTodos.map((item) => (item.id === todo.id ? response.data : item))
       );
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
+
       setError('Failed to update todo.');
     }
   };
@@ -106,21 +110,21 @@ export default function Home() {
   // DELETE TODO
   // -------------------------------------------------------
 
-  const deleteTodo = async (id: any): Promise<any> => {
+  const deleteTodo = async (id) => {
     try {
       setError('');
 
       // Send DELETE request
+      //
       // /api?id=1
-
+      //
       await axios.delete(`/api?id=${id}`);
 
       // Remove the todo from local state
-      setTodos((currentTodos: any[]) =>
-        currentTodos.filter((todo: any) => todo.id !== id)
-      );
-    } catch (error: any) {
+      setTodos((currentTodos) => currentTodos.filter((todo) => todo.id !== id));
+    } catch (error) {
       console.log(error);
+
       setError('Failed to delete todo.');
     }
   };
@@ -149,7 +153,7 @@ export default function Home() {
           <input
             type="text"
             value={newTodo}
-            onChange={(event: any) => setNewTodo(event.target.value)}
+            onChange={(event) => setNewTodo(event.target.value)}
             placeholder="Enter a todo..."
             className="flex-1 rounded border bg-white px-4 py-2"
           />
@@ -173,7 +177,7 @@ export default function Home() {
 
         {/* Todo List */}
         <div className="space-y-3">
-          {todos.map((todo: any) => (
+          {todos.map((todo) => (
             <div
               key={todo.id}
               className="flex items-center justify-between rounded border bg-white p-4"

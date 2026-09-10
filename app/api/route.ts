@@ -24,43 +24,13 @@ let todos = [
     title: 'Build an API',
     completed: true,
   },
-];
-
-// =======================================================
-// GET /api/todos
-// =======================================================
-//
-// Get all todos
-//
-// Example:
-//
-// GET http://localhost:3000/api/todos
-//
-// =======================================================
+]; // ======================================================= // GET /api/todos // ======================================================= // // Get all todos // // Example: // // GET http://localhost:3000/api/todos // // =======================================================
 
 export async function GET() {
   return Response.json(todos);
-}
+} // ======================================================= // POST /api/todos // ======================================================= // // Create a new todo // // Example: // // POST http://localhost:3000/api/todos // // Request body: // // { //   "title": "Learn React" // } // // =======================================================
 
-// =======================================================
-// POST /api/todos
-// =======================================================
-//
-// Create a new todo
-//
-// Example:
-//
-// POST http://localhost:3000/api/todos
-//
-// Request body:
-//
-// {
-//   "title": "Learn React"
-// }
-//
-// =======================================================
-
-export async function POST(request) {
+export async function POST(request:any) {
   // Read the JSON data sent by the client
   const data = await request.json(); // Basic validation
 
@@ -86,31 +56,11 @@ export async function POST(request) {
   return Response.json(newTodo, {
     status: 201,
   });
-}
+} // ======================================================= // PATCH /api/todos?id=1 // ======================================================= // // Update a todo // // The todo ID is passed as a query parameter. // // Example: // // PATCH http://localhost:3000/api/todos?id=1 // // Request body: // // { //   "completed": true // } // // =======================================================
 
-// =======================================================
-// PATCH /api/todos?id=1
-// =======================================================
-//
-// Update a todo
-//
-// The todo ID is passed as a query parameter.
-//
-// Example:
-//
-// PATCH http://localhost:3000/api/todos?id=1
-//
-// Request body:
-//
-// {
-//   "completed": true
-// }
-//
-// =======================================================
-
-export async function PATCH(request) {
+export async function PATCH(request:any) {
   // Get the URL from the request
-  const url = new URL(request.url); // Get the "id" query parameter // // /api/todos?id=1 //              ↑ //
+  const url = new URL(request.url); // Get the "id" query parameter // // /api/todos?id=1 //              ↑ //
 
   const id = Number(url.searchParams.get('id')); // Check whether an ID was provided
 
@@ -149,21 +99,9 @@ export async function PATCH(request) {
   } // Return the updated todo
 
   return Response.json(todo);
-}
+} // ======================================================= // DELETE /api/todos?id=1 // ======================================================= // // Delete a todo // // Example: // // DELETE http://localhost:3000/api/todos?id=1 // // =======================================================
 
-// =======================================================
-// DELETE /api/todos?id=1
-// =======================================================
-//
-// Delete a todo
-//
-// Example:
-//
-// DELETE http://localhost:3000/api/todos?id=1
-//
-// =======================================================
-
-export async function DELETE(request) {
+export async function DELETE(request:any) {
   // Get the URL from the request
   const url = new URL(request.url); // Get the "id" query parameter
 
